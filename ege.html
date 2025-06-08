@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Флэш-карты ЕГЭ</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 30px;
+      background: #f7f9fa;
+    }
+
+    h1, h2 {
+      text-align: center;
+    }
+
+    .flashcard {
+      background: white;
+      border-radius: 10px;
+      padding: 20px;
+      margin: 10px auto;
+      width: 90%;
+      max-width: 500px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+
+    .flashcard:hover {
+      transform: scale(1.02);
+    }
+
+    .input-area {
+      margin: 30px auto;
+      max-width: 500px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    input, textarea {
+      padding: 10px;
+      font-size: 16px;
+    }
+
+    button {
+      padding: 10px;
+      font-size: 16px;
+      background-color: #4a90e2;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #357ab8;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Флэш-карты ЕГЭ</h1>
+
+  <h2>Первая часть (1–12)</h2>
+  <div id="part1-cards"></div>
+
+  <h2>Вторая часть (13–19)</h2>
+  <div id="part2-cards"></div>
+
+  <h2>Добавить свою карточку</h2>
+  <div class="input-area">
+    <input type="text" id="question" placeholder="Вопрос или номер задания" />
+    <textarea id="answer" placeholder="Ответ или пояснение"></textarea>
+    <select id="section">
+      <option value="1">Первая часть</option>
+      <option value="2">Вторая часть</option>
+    </select>
+    <button onclick="addCard()">Добавить карточку</button>
+  </div>
+
+  <script>
+    const defaultCards = {
+      part1: [
+        { q: "Задание №1: Найти значение выражения", a: "Ответ: 14" },
+        { q: "Задание №2: Работа с процентами", a: "Ответ: 85%" }
+      ],
+      part2: [
+        { q: "Задание №13: Решение уравнения", a: "Ответ: x = 3" },
+        { q: "Задание №15: Теория чисел", a: "Ответ: наибольший делитель — 12" }
+      ]
+    };
+
+    const part1Container = document.getElementById('part1-cards');
+    const part2Container = document.getElementById('part2-cards');
+
+    function renderCards() {
+      part1Container.innerHTML = '';
+      part2Container.innerHTML = '';
+
+      const saved = JSON.parse(localStorage.getItem('egeCards')) || defaultCards;
+
+      saved.part1.forEach(card => {
+        part1Container.innerHTML += cardHTML(card);
+      });
+
+      saved.part2.forEach(card => {
+        part2Container.innerHTML += cardHTML(card);
+      });
+    }
+
+    function cardHTML(card) {
+      return `<div class="flashcard" onclick="this.classList.toggle('flipped')">
+                <strong>${card.q}</strong><br>
+                <span style="display:none;">${card.a}</span>
+              </div>`;
+    }
+
+    function addCard() {
+      const q = document.getElementById('question').value.trim();
+      const a = document.getElementById('answer').value.trim();
+      const section = document.getElementById('section').value;
+
+      if (!q || !a) return alert('Заполни оба поля!');
+
+      const data = JSON.parse(localStorage.getItem('egeCards')) || defaultCards;
+
+      const newCard = { q, a };
+
+      if (section === "1") data.part1.push(newCard);
+      else data.part2.push(newCard);
+
+      localStorage.setItem('egeCards', JSON.stringify(data));
+      renderCards();
+
+      document.getElementById('question').value = '';
+      document.getElementById('answer').value = '';
+    }
+
+    // показать/скрыть ответ при клике
+    document.addEventListener('click', function(e) {
+      if (e.target.closest('.flashcard')) {
+        const span = e.target.closest('.flashcard').querySelector('span');
+        if (span) span.style.display = span.style.display === 'none' ? 'block' : 'none';
+      }
+    });
+
+    renderCards();
+  </script>
+
+</body>
+</html>
