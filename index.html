@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Выбор класса</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f6f8;
+      text-align: center;
+      padding: 40px;
+    }
+
+    h1 {
+      color: #333;
+      margin-bottom: 30px;
+    }
+
+    .button-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 20px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .btn {
+      background-color: #4a90e2;
+      color: white;
+      border: none;
+      padding: 15px 20px;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: #357ab8;
+    }
+  </style>
+</head>
+<body>
+  <h1>Выберите класс</h1>
+  <div class="button-grid">
+    <button class="btn" onclick="goTo('5')">5 класс</button>
+    <button class="btn" onclick="goTo('6')">6 класс</button>
+    <button class="btn" onclick="goTo('7')">7 класс</button>
+    <button class="btn" onclick="goTo('8')">8 класс</button>
+    <button class="btn" onclick="goTo('9')">9 класс</button>
+    <button class="btn" onclick="goTo('10')">10 класс</button>
+    <button class="btn" onclick="goTo('11')">11 класс</button>
+    <button class="btn" onclick="goTo('oge')">ОГЭ</button>
+    <button class="btn" onclick="goTo('ege')">ЕГЭ</button>
+  </div>
+
+  <script>
+    function goTo(section) {
+      // Пока просто переход на подстраницу, можно заменить ссылками на отдельные HTML-файлы
+      location.href = section + ".html";
+    }
+  </script>
+</body>
+</html>
