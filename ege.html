@@ -1,152 +1,97 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <title>Флэш-карты ЕГЭ</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Карточки ЕГЭ</title>
   <style>
     body {
       font-family: sans-serif;
-      padding: 30px;
-      background: #f7f9fa;
+      background: #f2f2f2;
+      margin: 0;
+      padding: 20px;
     }
 
-    h1, h2 {
+    h1 {
       text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .cards-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
     }
 
     .flashcard {
-      background: white;
-      border-radius: 10px;
-      padding: 20px;
-      margin: 10px auto;
-      width: 90%;
-      max-width: 500px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      cursor: pointer;
-      transition: transform 0.3s;
+      perspective: 1000px;
     }
 
-    .flashcard:hover {
-      transform: scale(1.02);
-    }
-
-    .input-area {
-      margin: 30px auto;
-      max-width: 500px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    input, textarea {
-      padding: 10px;
-      font-size: 16px;
-    }
-
-    button {
-      padding: 10px;
-      font-size: 16px;
-      background-color: #4a90e2;
-      color: white;
-      border: none;
-      border-radius: 6px;
+    .card-inner {
+      position: relative;
+      width: 100%;
+      padding-top: 100%; /* квадрат */
+      transition: transform 0.6s;
+      transform-style: preserve-3d;
       cursor: pointer;
     }
 
-    button:hover {
-      background-color: #357ab8;
+    .flashcard:hover .card-inner {
+      transform: rotateY(180deg);
+    }
+
+    .card-front, .card-back {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border: 1px solid #ccc;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .card-front img,
+    .card-back img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .card-back {
+      transform: rotateY(180deg);
     }
   </style>
 </head>
 <body>
 
-  <h1>Флэш-карты ЕГЭ</h1>
+<h1>Карточки ЕГЭ — Задание 1</h1>
 
-  <h2>Первая часть (1–12)</h2>
-  <div id="part1-cards"></div>
-
-  <h2>Вторая часть (13–19)</h2>
-  <div id="part2-cards"></div>
-
-  <h2>Добавить свою карточку</h2>
-  <div class="input-area">
-    <input type="text" id="question" placeholder="Вопрос или номер задания" />
-    <textarea id="answer" placeholder="Ответ или пояснение"></textarea>
-    <select id="section">
-      <option value="1">Первая часть</option>
-      <option value="2">Вторая часть</option>
-    </select>
-    <button onclick="addCard()">Добавить карточку</button>
+<div class="cards-container">
+  <div class="flashcard">
+    <div class="card-inner">
+      <div class="card-front">
+        <img src="https://sun1-91.userapi.com/impg/DxxnDvpT09CqW-0O_b4JD5aRJyTasNXe6rmJqg/n4UmXJMtJs8.jpg" alt="Задание 1 - лицевая">
+      </div>
+      <div class="card-back">
+        <img src="https://sun1-91.userapi.com/impg/hPlJET9-eQCYgVn6ONfm9qe5xQZwAKYyz7DDzA/lPiL8wf122o.jpg" alt="Задание 1 - обратная">
+      </div>
+    </div>
   </div>
 
-  <script>
-    const defaultCards = {
-      part1: [
-        { q: "Задание №1: Найти значение выражения", a: "Ответ: 14" },
-        { q: "Задание №2: Работа с процентами", a: "Ответ: 85%" }
-      ],
-      part2: [
-        { q: "Задание №13: Решение уравнения", a: "Ответ: x = 3" },
-        { q: "Задание №15: Теория чисел", a: "Ответ: наибольший делитель — 12" }
-      ]
-    };
+  <div class="flashcard">
+    <div class="card-inner">
+      <div class="card-front">
+        <img src="https://sun1-21.userapi.com/impg/DbHKeKyq4XBQZyPbMZRGlm9B_-FGFkx87uRMiA/D7X18AHCpw8.jpg" alt="Задание 1 - лицевая">
+      </div>
+      <div class="card-back">
+        <img src="https://sun1-92.userapi.com/impg/oMrwjjXqrM-Jz4TIc_9P8djwYKUW1J7EZvZP4g/UxxmzOAaoRc.jpg" alt="Задание 1 - обратная">
+      </div>
+    </div>
+  </div>
 
-    const part1Container = document.getElementById('part1-cards');
-    const part2Container = document.getElementById('part2-cards');
-
-    function renderCards() {
-      part1Container.innerHTML = '';
-      part2Container.innerHTML = '';
-
-      const saved = JSON.parse(localStorage.getItem('egeCards')) || defaultCards;
-
-      saved.part1.forEach(card => {
-        part1Container.innerHTML += cardHTML(card);
-      });
-
-      saved.part2.forEach(card => {
-        part2Container.innerHTML += cardHTML(card);
-      });
-    }
-
-    function cardHTML(card) {
-      return `<div class="flashcard" onclick="this.classList.toggle('flipped')">
-                <strong>${card.q}</strong><br>
-                <span style="display:none;">${card.a}</span>
-              </div>`;
-    }
-
-    function addCard() {
-      const q = document.getElementById('question').value.trim();
-      const a = document.getElementById('answer').value.trim();
-      const section = document.getElementById('section').value;
-
-      if (!q || !a) return alert('Заполни оба поля!');
-
-      const data = JSON.parse(localStorage.getItem('egeCards')) || defaultCards;
-
-      const newCard = { q, a };
-
-      if (section === "1") data.part1.push(newCard);
-      else data.part2.push(newCard);
-
-      localStorage.setItem('egeCards', JSON.stringify(data));
-      renderCards();
-
-      document.getElementById('question').value = '';
-      document.getElementById('answer').value = '';
-    }
-
-    // показать/скрыть ответ при клике
-    document.addEventListener('click', function(e) {
-      if (e.target.closest('.flashcard')) {
-        const span = e.target.closest('.flashcard').querySelector('span');
-        if (span) span.style.display = span.style.display === 'none' ? 'block' : 'none';
-      }
-    });
-
-    renderCards();
-  </script>
+  <!-- Пример: просто дублируй блок flashcard, вставляя front/back -->
+</div>
 
 </body>
 </html>
