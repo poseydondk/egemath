@@ -3,63 +3,146 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Выбор класса</title>
+  <title>Мой сайт - Главная</title>
   <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f6f8;
-      text-align: center;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .container {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
       padding: 40px;
+      max-width: 800px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .profile-section {
+      margin-bottom: 40px;
+    }
+
+    .profile-image {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      background: linear-gradient(45deg, #667eea, #764ba2);
+      margin: 0 auto 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 60px;
+      color: white;
+      font-weight: bold;
     }
 
     h1 {
       color: #333;
-      margin-bottom: 30px;
+      margin-bottom: 10px;
+      font-size: 2.5em;
     }
 
-    .button-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    .subtitle {
+      color: #666;
+      font-size: 1.2em;
+      margin-bottom: 20px;
+    }
+
+    .description {
+      color: #555;
+      line-height: 1.6;
+      margin-bottom: 30px;
+      font-size: 1.1em;
+    }
+
+    .buttons-section {
+      display: flex;
       gap: 20px;
-      max-width: 600px;
-      margin: 0 auto;
+      justify-content: center;
+      flex-wrap: wrap;
     }
 
     .btn {
-      background-color: #4a90e2;
+      background: linear-gradient(45deg, #667eea, #764ba2);
       color: white;
       border: none;
-      padding: 15px 20px;
-      border-radius: 8px;
-      font-size: 16px;
+      padding: 20px 40px;
+      border-radius: 50px;
+      font-size: 18px;
+      font-weight: bold;
       cursor: pointer;
-      transition: background-color 0.3s ease;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+      min-width: 200px;
     }
 
     .btn:hover {
-      background-color: #357ab8;
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-informatics {
+      background: linear-gradient(45deg, #11998e, #38ef7d);
+    }
+
+    .btn-math {
+      background: linear-gradient(45deg, #ff6b6b, #feca57);
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 20px;
+      }
+      
+      .buttons-section {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .btn {
+        width: 100%;
+        max-width: 300px;
+      }
     }
   </style>
 </head>
 <body>
-  <h1>Выберите класс</h1>
-  <div class="button-grid">
-    <button class="btn" onclick="goTo('5')">5 класс</button>
-    <button class="btn" onclick="goTo('6')">6 класс</button>
-    <button class="btn" onclick="goTo('7')">7 класс</button>
-    <button class="btn" onclick="goTo('8')">8 класс</button>
-    <button class="btn" onclick="goTo('9')">9 класс</button>
-    <button class="btn" onclick="goTo('10')">10 класс</button>
-    <button class="btn" onclick="goTo('11')">11 класс</button>
-    <button class="btn" onclick="goTo('oge')">ОГЭ</button>
-    <button class="btn" onclick="goTo('ege')">ЕГЭ</button>
-  </div>
+  <div class="container">
+    <div class="profile-section">
+      <div class="profile-image">👨‍💻</div>
+      <h1>Дмитрий Вячеславович Кожевяткин</h1>
+      <p class="subtitle">Преподаватель информатики и математики</p>
+      <p class="description">
+        Добро пожаловать на мой образовательный сайт! Здесь вы найдете материалы по информатике и математике для разных классов. 
+        Я помогу вам освоить эти предметы с помощью понятных объяснений и практических заданий.
+        </p>
+        <p>Мой номер +7 993 337 44 82
+        
+          Мой телеграм @dk_pos</p>
+    </div>
 
-  <script>
-    function goTo(section) {
-      // Пока просто переход на подстраницу, можно заменить ссылками на отдельные HTML-файлы
-      location.href = section + ".html";
-    }
-  </script>
+    <div class="buttons-section">
+      <a href="informatics.html" class="btn btn-informatics">
+        📊 Информатика
+      </a>
+      <a href="mathematics.html" class="btn btn-math">
+        📐 Математика
+      </a>
+    </div>
+  </div>
 </body>
 </html>
