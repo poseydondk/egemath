@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Математика - 6 класс | Уравнения</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #ff6b6b 0%, #feca57 100%); min-height: 100vh; padding: 20px; }
+    .back-btn { position: absolute; top: 20px; left: 20px; background: rgba(255,255,255,0.2); color: white; border: none; padding: 10px 20px; border-radius: 25px; cursor: pointer; text-decoration: none; font-weight: bold; transition: all 0.3s ease; }
+    .back-btn:hover { background: rgba(255,255,255,0.3); transform: translateX(-3px); }
+    .container { max-width: 1000px; margin: 0 auto; }
+    .header { text-align: center; margin-bottom: 30px; }
+    h1 { color: white; font-size: 2.4em; margin-bottom: 8px; text-shadow: 2px 2px 4px rgba(0,0,0,0.25); }
+    .subtitle { color: rgba(255,255,255,0.95); font-size: 1.15em; }
+
+    .card { background: rgba(255,255,255,0.95); border-radius: 16px; padding: 24px; box-shadow: 0 10px 25px rgba(0,0,0,0.12); margin-top: 20px; }
+    .card h2 { color: #ff6b6b; margin-bottom: 12px; }
+    .card p { color: #444; line-height: 1.6; }
+
+    .eq-anim { margin-top: 20px; background: #fff; border-radius: 16px; padding: 24px; box-shadow: 0 10px 25px rgba(0,0,0,0.12); }
+    .eq-title { color: #333; font-weight: 700; margin-bottom: 12px; }
+
+    .stage { display: flex; align-items: center; justify-content: center; min-height: 72px; border: 2px dashed rgba(0,0,0,0.08); border-radius: 12px; margin-bottom: 16px; position: relative; overflow: hidden; background: linear-gradient(90deg, rgba(254,202,87,0.15), rgba(255,255,255,0)); }
+    .equation { font-size: 34px; font-weight: 700; color: #222; letter-spacing: 0.5px; }
+    .muted { color: #888; font-weight: 600; }
+    .term { display: inline-block; position: relative; padding: 0 6px; border-radius: 8px; }
+    .term.move { background: rgba(255,107,107,0.18); }
+
+    .frac { display: inline-flex; flex-direction: column; align-items: center; font-weight: 700; }
+    .frac .num { border-bottom: 2px solid #333; width: 100%; text-align: center; padding: 0 4px; }
+    .frac .den { text-align: center; padding: 0 4px; }
+
+    .hint { text-align: center; color: #555; font-size: 14px; margin-top: 8px; }
+
+    .controls { display: flex; gap: 10px; justify-content: center; margin-top: 14px; }
+    .btn { background: #222; color: #fff; border: none; padding: 10px 16px; border-radius: 10px; font-weight: 700; cursor: pointer; transition: transform .15s ease, opacity .2s ease; }
+    .btn:hover { transform: translateY(-2px); }
+    .btn.alt { background: #11998e; }
+
+    .steps { margin-top: 14px; display: grid; gap: 8px; }
+    .step { background: rgba(255,255,255,0.9); border-left: 6px solid #ff6b6b; padding: 10px 12px; border-radius: 10px; color: #333; font-weight: 600; box-shadow: 0 4px 10px rgba(0,0,0,0.06); }
+
+    .note { margin-top: 18px; background: rgba(17,153,142,0.08); border-left: 6px solid #11998e; padding: 12px 14px; border-radius: 10px; color: #0d695f; }
+
+    /* Тренажёр */
+    .trainer { margin-top: 22px; background: #fff; border-radius: 16px; padding: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.12); }
+    .trainer h2 { color: #333; margin-bottom: 10px; }
+    .tasks { display: grid; gap: 10px; }
+    .task { display: grid; grid-template-columns: 1fr 120px; gap: 10px; align-items: center; background: rgba(0,0,0,0.02); padding: 10px; border-radius: 10px; }
+    .task .expr { font-weight: 700; color: #222; }
+    .task input { padding: 10px 12px; border: 2px solid rgba(0,0,0,0.1); border-radius: 8px; font-size: 16px; }
+    .task input.ok { border-color: #2ecc71; background: rgba(46,204,113,0.08); }
+    .task input.err { border-color: #e74c3c; background: rgba(231,76,60,0.08); }
+    .trainer .controls { display: flex; gap: 10px; margin-top: 12px; }
+    .score { margin-top: 8px; color: #333; font-weight: 700; }
+
+    /* Верстка тренажера раскрытия скобок */
+    #trainerDist .task { grid-template-columns: 1fr 200px; }
+    #trainerDist .task .inputs { display: flex; gap: 8px; justify-content: flex-end; }
+    #trainerDist .task input { width: 80px; }
+
+    @media (max-width: 700px) {
+      #trainerDist .task { grid-template-columns: 1fr; }
+      #trainerDist .task .inputs { justify-content: flex-start; }
+    }
+
+    @media (max-width: 600px) { .equation { font-size: 26px; } }
+  </style>
+</head>
+<body>
+  <a href="mathematics.html" class="back-btn">← Назад</a>
+
+  <div class="container">
+    <div class="header">
+      <h1>📐 Математика — 6 класс</h1>
+    </div>
+
+    <div class="card">
+      <h2>Тема: Уравнения</h2>
+      <button class="btn alt" id="toggle-eq">Показать анимацию</button>
+    </div>
+
+    <div id="eq-section" style="display:none;">
+      <div class="eq-anim" id="anim1">
+        <div class="eq-title">Пример 1: 3x + 5 = 17</div>
+        <div class="stage">
+          <div class="equation" id="eq1"></div>
+        </div>
+        <div class="hint" id="hint1"></div>
+        <div class="controls">
+          <button class="btn" id="prev1">Назад</button>
+          <button class="btn alt" id="next1">Далее</button>
+          <button class="btn" id="reset1">Сброс</button>
+        </div>
+        <div class="steps" id="steps1"></div>
+      </div>
+
+          <div class="eq-anim" id="anim2">
+      <div class="eq-title">Пример 2: 2x − 7 = 9</div>
+      <div class="stage">
+        <div class="equation" id="eq2"></div>
+      </div>
+      <div class="hint" id="hint2"></div>
+      <div class="controls">
+        <button class="btn" id="prev2">Назад</button>
+        <button class="btn alt" id="next2">Далее</button>
+        <button class="btn" id="reset2">Сброс</button>
+      </div>
+      <div class="steps" id="steps2"></div>
+    </div>
+
+    <div class="eq-anim" id="anim3">
+      <div class="eq-title">Пример 3: 5x + 4 = 2x + 22</div>
+      <div class="stage">
+        <div class="equation" id="eq3"></div>
+      </div>
+      <div class="hint" id="hint3"></div>
+      <div class="controls">
+        <button class="btn" id="prev3">Назад</button>
+        <button class="btn alt" id="next3">Далее</button>
+        <button class="btn" id="reset3">Сброс</button>
+      </div>
+      <div class="steps" id="steps3"></div>
+    </div>
+    <div class="note">
+      Совет: всегда выполняйте одинаковые операции с обеими частями уравнения. Это сохраняет равенство и позволяет упростить выражение.
+    </div>
+    <div class="trainer" id="trainer">
+      <h2>Тренажёр: решите уравнения</h2>
+      <div class="tasks" id="tasks"></div>
+      <div class="controls">
+        <button class="btn alt" id="checkBtn">Проверить</button>
+        <button class="btn" id="newBtn">Новые задания</button>
+      </div>
+      <div class="score" id="score"></div>
+    </div>
+    </div>
+
+    <div class="card" style="margin-top:16px;">
+      <h2>Тема: Умножение на скобку</h2>
+      <button class="btn alt" id="toggle-dist">Показать анимацию</button>
+    </div>
+
+    <div id="dist-section" style="display:none;">
+      <div class="eq-anim" id="animd1">
+        <div class="eq-title">Пример 1: 3(x + 4)</div>
+        <div class="stage">
+          <div class="equation" id="eqd1"></div>
+        </div>
+        <div class="hint" id="hintd1"></div>
+        <div class="controls">
+          <button class="btn" id="prevd1">Назад</button>
+          <button class="btn alt" id="nextd1">Далее</button>
+          <button class="btn" id="resetd1">Сброс</button>
+        </div>
+        <div class="steps" id="stepsd1"></div>
+      </div>
+
+      <div class="eq-anim" id="animd2">
+        <div class="eq-title">Пример 2: 2(3x − 5)</div>
+        <div class="stage">
+          <div class="equation" id="eqd2"></div>
+        </div>
+        <div class="hint" id="hintd2"></div>
+        <div class="controls">
+          <button class="btn" id="prevd2">Назад</button>
+          <button class="btn alt" id="nextd2">Далее</button>
+          <button class="btn" id="resetd2">Сброс</button>
+        </div>
+        <div class="steps" id="stepsd2"></div>
+      </div>
+
+      <div class="eq-anim" id="animd3">
+        <div class="eq-title">Пример 3: −4(x − 2)</div>
+        <div class="stage">
+          <div class="equation" id="eqd3"></div>
+        </div>
+        <div class="hint" id="hintd3"></div>
+        <div class="controls">
+          <button class="btn" id="prevd3">Назад</button>
+          <button class="btn alt" id="nextd3">Далее</button>
+          <button class="btn" id="resetd3">Сброс</button>
+        </div>
+        <div class="steps" id="stepsd3"></div>
+      </div>
+
+      <div class="eq-anim" id="animd4">
+        <div class="eq-title">Пример 4: −3(x + 5)</div>
+        <div class="stage">
+          <div class="equation" id="eqd4"></div>
+        </div>
+        <div class="hint" id="hintd4"></div>
+        <div class="controls">
+          <button class="btn" id="prevd4">Назад</button>
+          <button class="btn alt" id="nextd4">Далее</button>
+          <button class="btn" id="resetd4">Сброс</button>
+        </div>
+        <div class="steps" id="stepsd4"></div>
+      </div>
+
+      <div class="trainer" id="trainerDist" style="margin-top:16px;">
+        <h2>Тренажёр: раскройте скобки a(bx ± c) → Ax ± B</h2>
+        <div class="tasks" id="tasksDist"></div>
+        <div class="controls">
+          <button class="btn alt" id="checkDistBtn">Проверить</button>
+          <button class="btn" id="newDistBtn">Новые задания</button>
+        </div>
+        <div class="score" id="scoreDist"></div>
+      </div>
+    </div>
+
+
+  </div>
+
+  <script>
+    function createAnimator({eqEl, hintEl, stepsEl, prevBtn, nextBtn, resetBtn, frames}) {
+      let index = 0;
+      const render = () => {
+        const f = frames[index];
+        eqEl.innerHTML = f.html;
+        hintEl.textContent = f.hint || '';
+        stepsEl.innerHTML = frames
+          .slice(0, index + 1)
+          .map((s, i) => `<div class=\"step\">${i + 1}. ${s.step}</div>`) 
+          .join('');
+      };
+      const go = (d) => { index = Math.max(0, Math.min(frames.length - 1, index + d)); render(); };
+      prevBtn.addEventListener('click', () => go(-1));
+      nextBtn.addEventListener('click', () => go(1));
+      resetBtn.addEventListener('click', () => { index = 0; render(); });
+      render();
+    }
+
+    const toggleBtn = document.getElementById('toggle-eq');
+    const eqSection = document.getElementById('eq-section');
+    toggleBtn.addEventListener('click', () => {
+      const isHidden = eqSection.style.display === 'none';
+      eqSection.style.display = isHidden ? 'block' : 'none';
+      toggleBtn.textContent = isHidden ? 'Скрыть анимацию' : 'Показать анимацию';
+    });
+
+    const toggleDist = document.getElementById('toggle-dist');
+    const distSection = document.getElementById('dist-section');
+    toggleDist.addEventListener('click', () => {
+      const isHidden = distSection.style.display === 'none';
+      distSection.style.display = isHidden ? 'block' : 'none';
+      toggleDist.textContent = isHidden ? 'Скрыть анимацию' : 'Показать анимацию';
+    });
+
+    // Анимация 1: 3x + 5 = 17 → 3x = 17 − 5 → 3x = 12 → x = 4
+    createAnimator({
+      eqEl: document.getElementById('eq1'),
+      hintEl: document.getElementById('hint1'),
+      stepsEl: document.getElementById('steps1'),
+      prevBtn: document.getElementById('prev1'),
+      nextBtn: document.getElementById('next1'),
+      resetBtn: document.getElementById('reset1'),
+      frames: [
+        { html: `3x + <span class=\"term move\">5</span> = 17`, step: 'Исходное уравнение', hint: 'Нужно перенести 5 в правую часть с противоположным знаком' },
+        { html: `3x = 17 − <span class=\"term\">5</span>`, step: 'Переносим 5 вправо', hint: 'Знак «+5» стал «−5»' },
+        { html: `3x = 12`, step: 'Вычисляем 17 − 5', hint: 'Упростили правую часть' },
+        { html: `<span class=\"term\">3x</span> = 12 → <span class=\"frac\"><span class=\"num\">3x</span><span class=\"den\">3</span></span> = <span class=\"frac\"><span class=\"num\">12</span><span class=\"den\">3</span></span>`, step: 'Делим обе части на 3', hint: 'Чтобы убрать коэффициент 3 при x, делим и левую, и правую часть на 3' },
+        { html: `<span class=\"term\">x</span> = 4`, step: 'Сокращаем дроби', hint: 'Получили значение неизвестной' },
+      ]
+    });
+
+    // Анимация 2: 2x − 7 = 9 → 2x = 9 + 7 → 2x = 16 → x = 8
+    createAnimator({
+      eqEl: document.getElementById('eq2'),
+      hintEl: document.getElementById('hint2'),
+      stepsEl: document.getElementById('steps2'),
+      prevBtn: document.getElementById('prev2'),
+      nextBtn: document.getElementById('next2'),
+      resetBtn: document.getElementById('reset2'),
+      frames: [
+        { html: `2x − <span class=\"term move\">7</span> = 9`, step: 'Исходное уравнение', hint: 'Переносим −7 вправо: станет +7' },
+        { html: `2x = 9 + <span class=\"term\">7</span>`, step: 'Переносим −7 вправо', hint: 'Знак «−7» стал «+7»' },
+        { html: `2x = 16`, step: 'Складываем 9 и 7', hint: 'Упростили правую часть' },
+        { html: `<span class=\"term\">x</span> = 8`, step: 'Делим обе части на 2', hint: 'Нашли неизвестную' },
+      ]
+    });
+    // Анимация 3: 5x + 4 = 2x + 22 → 3x + 4 = 22 → 3x = 22 − 4 → 3x = 18 → (делим обе части на 3) → x = 6
+    createAnimator({
+      eqEl: document.getElementById('eq3'),
+      hintEl: document.getElementById('hint3'),
+      stepsEl: document.getElementById('steps3'),
+      prevBtn: document.getElementById('prev3'),
+      nextBtn: document.getElementById('next3'),
+      resetBtn: document.getElementById('reset3'),
+      frames: [
+        { html: `5x + 4 = 2x + 22`, step: 'Исходное уравнение', hint: 'Соберем x слева, числа справа' },
+        { html: `5x − 2x + 4 = 22`, step: 'Переносим 2x влево', hint: 'Меняем знак при переносе' },
+        { html: `3x + 4 = 22`, step: 'Упрощаем левую часть', hint: '5x − 2x = 3x' },
+        { html: `3x = 22 − 4`, step: 'Переносим +4 вправо', hint: 'Меняем знак на «−4»' },
+        { html: `3x = 18`, step: 'Вычисляем 22 − 4', hint: 'Упростили правую часть' },
+        { html: `<span class=\"term\">3x</span> = 18 → <span class=\"frac\"><span class=\"num\">3x</span><span class=\"den\">3</span></span> = <span class=\"frac\"><span class=\"num\">18</span><span class=\"den\">3</span></span>`, step: 'Делим обе части на 3', hint: 'Убираем коэффициент 3 при x' },
+        { html: `<span class=\"term\">x</span> = 6`, step: 'Сокращаем дроби', hint: 'Ответ найден' },
+      ]
+    });
+    // Тренажёр
+    function gcd(a,b){ return b ? gcd(b, a%b) : Math.abs(a); }
+    function generateTask(){
+      // a*x + b = c  → x = (c - b)/a  (гарантируем целый ответ)
+      const a = [2,3,4,5,6][Math.floor(Math.random()*5)];
+      const x = Math.floor(Math.random()*11) - 5; // -5..5
+      const b = Math.floor(Math.random()*21) - 10; // -10..10
+      const c = a * x + b;
+      return { a, b, c, x, toString: () => `${a}x ${b>=0?'+':'−'} ${Math.abs(b)} = ${c}` };
+    }
+    function renderTasks(n=5){
+      const tasksEl = document.getElementById('tasks');
+      const tasks = Array.from({length:n}, generateTask);
+      tasksEl.innerHTML = tasks.map((t,i)=>
+        `<div class=\"task\">`+
+          `<div class=\"expr\">${t.toString()}</div>`+
+          `<input type=\"number\" step=\"1\" inputmode=\"numeric\" id=\"ans_${i}\" data-x=\"${t.x}\">`+
+        `</div>`
+      ).join('');
+      document.getElementById('score').textContent = '';
+      return tasks;
+    }
+
+    let currentTasks = renderTasks();
+    document.getElementById('newBtn').addEventListener('click', ()=>{ currentTasks = renderTasks(); });
+    document.getElementById('checkBtn').addEventListener('click', ()=>{
+      let ok = 0;
+      currentTasks.forEach((t,i)=>{
+        const input = document.getElementById(`ans_${i}`);
+        const val = Number(input.value);
+        input.classList.remove('ok','err');
+        if (val === t.x){ ok++; input.classList.add('ok'); }
+        else { input.classList.add('err'); }
+      });
+      document.getElementById('score').textContent = `Верно: ${ok} из ${currentTasks.length}`;
+    });
+    // Раскрытие скобок (дистрибутивность)
+    createAnimator({
+      eqEl: document.getElementById('eqd1'),
+      hintEl: document.getElementById('hintd1'),
+      stepsEl: document.getElementById('stepsd1'),
+      prevBtn: document.getElementById('prevd1'),
+      nextBtn: document.getElementById('nextd1'),
+      resetBtn: document.getElementById('resetd1'),
+      frames: [
+        { html: `3( <span class=\"term\">x</span> + <span class=\"term\">4</span> )`, step: 'Исходное выражение', hint: 'Домножаем каждый член в скобках на 3' },
+        { html: `<span class=\"term move\">3</span>·x + <span class=\"term move\">3</span>·4`, step: 'Умножаем 3 на каждый компонент', hint: '3 умножаем на x и на 4' },
+        { html: `3x + 12`, step: 'Упрощаем произведения', hint: '3·x = 3x, 3·4 = 12' },
+      ]
+    });
+
+    createAnimator({
+      eqEl: document.getElementById('eqd2'),
+      hintEl: document.getElementById('hintd2'),
+      stepsEl: document.getElementById('stepsd2'),
+      prevBtn: document.getElementById('prevd2'),
+      nextBtn: document.getElementById('nextd2'),
+      resetBtn: document.getElementById('resetd2'),
+      frames: [
+        { html: `2( <span class=\"term\">3x</span> − <span class=\"term\">5</span> )`, step: 'Исходное выражение', hint: 'Домножаем каждый член в скобках на 2' },
+        { html: `<span class=\"term move\">2</span>·3x − <span class=\"term move\">2</span>·5`, step: 'Умножаем 2 на каждый компонент', hint: 'Сохраняем знак минус' },
+        { html: `6x − 10`, step: 'Упрощаем произведения', hint: '2·3x = 6x, 2·5 = 10' },
+      ]
+    });
+    // Дистрибутивность — примеры 3 и 4
+    createAnimator({
+      eqEl: document.getElementById('eqd3'),
+      hintEl: document.getElementById('hintd3'),
+      stepsEl: document.getElementById('stepsd3'),
+      prevBtn: document.getElementById('prevd3'),
+      nextBtn: document.getElementById('nextd3'),
+      resetBtn: document.getElementById('resetd3'),
+      frames: [
+        { html: `−4( <span class=\"term\">x</span> − <span class=\"term\">2</span> )`, step: 'Исходное выражение', hint: 'Домножаем каждый член на −4' },
+        { html: `<span class=\"term move\">−4</span>·x − <span class=\"term move\">−4</span>·2`, step: 'Учитываем смену знака при умножении на отрицательное', hint: '−4·(−2) = +8' },
+        { html: `−4x + 8`, step: 'Упрощаем', hint: '−4·x = −4x, −4·(−2) = +8' },
+      ]
+    });
+
+    createAnimator({
+      eqEl: document.getElementById('eqd4'),
+      hintEl: document.getElementById('hintd4'),
+      stepsEl: document.getElementById('stepsd4'),
+      prevBtn: document.getElementById('prevd4'),
+      nextBtn: document.getElementById('nextd4'),
+      resetBtn: document.getElementById('resetd4'),
+      frames: [
+        { html: `−3( <span class=\"term\">x</span> + <span class=\"term\">5</span> )`, step: 'Исходное выражение', hint: 'Домножаем каждый член на −3' },
+        { html: `<span class=\"term move\">−3</span>·x + <span class=\"term move\">−3</span>·5`, step: 'Сохраняем знаки', hint: '−3·(+5) = −15' },
+        { html: `−3x − 15`, step: 'Упрощаем', hint: '−3·x = −3x, −3·5 = −15' },
+      ]
+    });
+
+    // Тренажёр по раскрытию скобок
+    function generateDist(){
+      // a(bx ± c) → Ax ± B
+      const a = [-4,-3,-2,2,3,4][Math.floor(Math.random()*6)];
+      const b = [1,2,3,4,5][Math.floor(Math.random()*5)];
+      const cMag = Math.floor(Math.random()*9) + 1; // 1..9 всегда положительное
+      const sign = Math.random()<0.5 ? '+' : '−';
+      const expr = `${a}(${b}x ${sign} ${cMag})`;
+      const A = a*b;
+      const C = sign==='+' ? cMag : -cMag;
+      const B = a*C;
+      return {expr, A, B};
+    }
+    function renderDist(n=5){
+      const tasksEl = document.getElementById('tasksDist');
+      const tasks = Array.from({length:n}, generateDist);
+      tasksEl.innerHTML = tasks.map((t,i)=>
+        `<div class=\"task\">`+
+                     `<div class=\"expr\">${t.expr} → <strong>Ax + B</strong></div>`+
+           `<div class=\"inputs\">`+
+             `<input type=\"number\" placeholder=\"A\" id=\"Ad_${i}\">`+
+             `<input type=\"number\" placeholder=\"B\" id=\"Bd_${i}\">`+
+           `</div>`+
+        `</div>`
+      ).join('');
+      document.getElementById('scoreDist').textContent = '';
+      return tasks;
+    }
+    let distTasks = renderDist();
+    document.getElementById('newDistBtn').addEventListener('click', ()=>{ distTasks = renderDist(); });
+    document.getElementById('checkDistBtn').addEventListener('click', ()=>{
+      let ok=0;
+      distTasks.forEach((t,i)=>{
+        const aEl = document.getElementById(`Ad_${i}`);
+        const bEl = document.getElementById(`Bd_${i}`);
+        const A = Number(aEl.value);
+        const B = Number(bEl.value);
+        aEl.classList.remove('ok','err');
+        bEl.classList.remove('ok','err');
+        const correctA = distTasks[i].A;
+        const correctB = distTasks[i].B;
+        const aOk = A === correctA;
+        const bOk = B === correctB;
+        if (aOk) aEl.classList.add('ok'); else aEl.classList.add('err');
+        if (bOk) bEl.classList.add('ok'); else bEl.classList.add('err');
+        if (aOk && bOk) ok++;
+      });
+      document.getElementById('scoreDist').textContent = `Верно полностью: ${ok} из ${distTasks.length}`;
+    });
+  </script>
+</body>
+</html> 

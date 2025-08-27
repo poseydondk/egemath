@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Информатика - 5 класс</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .back-btn {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 25px;
+      cursor: pointer;
+      text-decoration: none;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+
+    .back-btn:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: translateX(-3px);
+    }
+
+    h1 {
+      color: white;
+      font-size: 2.5em;
+      margin-bottom: 10px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .subtitle {
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 1.2em;
+      margin-bottom: 40px;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .topics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 25px;
+      margin-bottom: 40px;
+    }
+
+    .topic-card {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 15px;
+      padding: 25px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .topic-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+    }
+
+    .topic-icon {
+      font-size: 3em;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+
+    .topic-title {
+      color: #11998e;
+      font-size: 1.4em;
+      font-weight: bold;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    .topic-description {
+      color: #666;
+      line-height: 1.6;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .topic-links {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .topic-link {
+      background: linear-gradient(45deg, #11998e, #38ef7d);
+      color: white;
+      text-decoration: none;
+      padding: 12px 20px;
+      border-radius: 25px;
+      text-align: center;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+
+    .topic-link:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .resources-section {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 30px;
+      margin-top: 40px;
+    }
+
+    .resources-title {
+      color: white;
+      font-size: 1.8em;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .resources-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+    }
+
+    .resource-btn {
+      background: rgba(255, 255, 255, 0.9);
+      color: #11998e;
+      border: none;
+      padding: 15px 20px;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      text-align: center;
+    }
+
+    .resource-btn:hover {
+      background: white;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    @media (max-width: 768px) {
+      .topics-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .resources-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      h1 {
+        font-size: 2em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a href="informatics.html" class="back-btn">← Назад</a>
+  
+  <div class="container">
+    <div class="header">
+      <h1>📊 Информатика - 5 класс</h1>
+      <p class="subtitle">Изучаем основы информатики</p>
+    </div>
+
+    <div class="topics-grid">
+      <div class="topic-card">
+        <div class="topic-icon">💻</div>
+        <div class="topic-title">Устройство компьютера</div>
+        <div class="topic-description">
+          Изучаем основные компоненты компьютера: процессор, память, устройства ввода и вывода
+        </div>
+        <div class="topic-links">
+          <a href="#" class="topic-link">📖 Теория</a>
+          <a href="#" class="topic-link">🎯 Тест</a>
+          <a href="#" class="topic-link">📝 Задания</a>
+        </div>
+      </div>
+
+      <div class="topic-card">
+        <div class="topic-icon">🖱️</div>
+        <div class="topic-title">Работа с мышью и клавиатурой</div>
+        <div class="topic-description">
+          Осваиваем навыки работы с основными устройствами ввода информации
+        </div>
+        <div class="topic-links">
+          <a href="#" class="topic-link">📖 Теория</a>
+          <a href="#" class="topic-link">🎯 Тест</a>
+          <a href="#" class="topic-link">📝 Задания</a>
+        </div>
+      </div>
+
+      <div class="topic-card">
+        <div class="topic-icon">📁</div>
+        <div class="topic-title">Файлы и папки</div>
+        <div class="topic-description">
+          Учимся работать с файловой системой, создавать и организовывать файлы
+        </div>
+        <div class="topic-links">
+          <a href="#" class="topic-link">📖 Теория</a>
+          <a href="#" class="topic-link">🎯 Тест</a>
+          <a href="#" class="topic-link">📝 Задания</a>
+        </div>
+      </div>
+
+      <div class="topic-card">
+        <div class="topic-icon">🎨</div>
+        <div class="topic-title">Графический редактор</div>
+        <div class="topic-description">
+          Создаем простые рисунки с помощью графического редактора Paint
+        </div>
+        <div class="topic-links">
+          <a href="#" class="topic-link">📖 Теория</a>
+          <a href="#" class="topic-link">🎯 Тест</a>
+          <a href="#" class="topic-link">📝 Задания</a>
+        </div>
+      </div>
+
+      <div class="topic-card">
+        <div class="topic-icon">📝</div>
+        <div class="topic-title">Текстовый редактор</div>
+        <div class="topic-description">
+          Учимся создавать и редактировать текстовые документы
+        </div>
+        <div class="topic-links">
+          <a href="#" class="topic-link">📖 Теория</a>
+          <a href="#" class="topic-link">🎯 Тест</a>
+          <a href="#" class="topic-link">📝 Задания</a>
+        </div>
+      </div>
+
+      <div class="topic-card">
+        <div class="topic-icon">🌐</div>
+        <div class="topic-title">Интернет и безопасность</div>
+        <div class="topic-description">
+          Изучаем основы работы в интернете и правила безопасности
+        </div>
+        <div class="topic-links">
+          <a href="#" class="topic-link">📖 Теория</a>
+          <a href="#" class="topic-link">🎯 Тест</a>
+          <a href="#" class="topic-link">📝 Задания</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="resources-section">
+      <h2 class="resources-title">📚 Дополнительные материалы</h2>
+      <div class="resources-grid">
+        <a href="#" class="resource-btn">📖 Учебник</a>
+        <a href="#" class="resource-btn">📋 Рабочая тетрадь</a>
+        <a href="#" class="resource-btn">🎬 Видеоуроки</a>
+        <a href="#" class="resource-btn">🎮 Интерактивные задания</a>
+        <a href="#" class="resource-btn">📊 Итоговый тест</a>
+        <a href="#" class="resource-btn">🏆 Олимпиады</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html> 
